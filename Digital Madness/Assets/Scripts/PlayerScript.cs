@@ -17,7 +17,7 @@ public class PlayerScript : MonoBehaviour
     {
         controls.Player.Enable();
     }
-    // Update is called once per frame
+
     void FixedUpdate()
     {
         Vector2 moveInput = controls.Player.Move.ReadValue<Vector2>();
@@ -26,19 +26,16 @@ public class PlayerScript : MonoBehaviour
         float pitchAngle = moveInput.y * speed * Time.fixedDeltaTime;
         float rollAngle = -moveInput.x * speed * Time.fixedDeltaTime;
 
-        // 2. Combine the rotations around the player's local Right and Forward axes
         Quaternion stepRotation = Quaternion.AngleAxis(pitchAngle, transform.right) *
                                   Quaternion.AngleAxis(rollAngle, transform.forward);
 
-        // 3. Apply the new rotation to the Rigidbody
+
         Quaternion targetRotation = stepRotation * rb.rotation;
         rb.MoveRotation(targetRotation);
 
-        // 4. Calculate the new position on the sphere's surface using the new "Up" direction
         Vector3 newUp = targetRotation * Vector3.up;
         Vector3 targetPosition = surface.position + (newUp * distance.magnitude);
 
-        // 5. Move the Rigidbody cleanly to the new position
         rb.MovePosition(targetPosition);
     }
 }
