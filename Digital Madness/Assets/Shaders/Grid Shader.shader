@@ -4,9 +4,10 @@ Shader "Unlit/Grid"
     {
         _MainTex ("Texture", 2D) = "black" {}
         [HDR]_GridColour ("Grid Colour", Color) = (.255,.0,.0,1)
+        [HDR]_GridColour_2("Grid Colour 2", Color) = (.255,.0,.0,1)
         _GridSize ("Grid Size", Range(0.01, 1.0)) = 0.1
         _GridLineThickness ("Grid Line Thickness", Range(0.00001, 0.010)) = 0.003
-        _Intensity ("Emission Intensity", Range(-5,15)) = 0
+        _Intensity ("Emission Intensity", float) = 0
     }
     SubShader
     {
@@ -37,6 +38,7 @@ Shader "Unlit/Grid"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             float4 _GridColour;
+            float4 _GridColour_2;
             float _GridSize;
             float _GridLineThickness;
             float _Intensity;
@@ -67,8 +69,12 @@ Shader "Unlit/Grid"
                 float3 dir = normalize(i.pos);
                 float2 sphereUV = float2(degrees(atan2(dir.z, dir.x)) / 360  + 0.5, degrees(asin(dir.y)) / 360 + 0.5);
 
-                float4 gridColour = (_GridColour * GridTest(sphereUV) * _Intensity) + tex2D(_MainTex, i.uv);
+                float4 gradientColor = lerp(_GridColour, _GridColour_2, smoothstep(-1, 2, dir.y));
+
+                float4 gridColour = (gradientColor * GridTest(sphereUV) * _Intensity) + tex2D(_MainTex, i.uv);
                 gridColour = float4(gridColour.r, gridColour.g, gridColour.b, 1);
+                
+            
                 return float4(gridColour);
             }
             ENDHLSL
