@@ -30,6 +30,7 @@ Shader "Unlit/Grid"
             struct v2f
             {
                 float2 uv : TEXCOORD0;
+                float3 pos : TEXCOORD1;
                 float4 vertex : SV_POSITION;
             };
 
@@ -42,18 +43,19 @@ Shader "Unlit/Grid"
 
             v2f vert (appdata v)
             {
-                v2f o;
-                o.vertex = TransformObjectToHClip(v.vertex.xyz);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                return o;
+                v2f output;
+                output.vertex = TransformObjectToHClip(v.vertex.xyz);
+                output.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                output.pos = v.vertex.xyz;
+                return output;
             }
 
-            float GridTest(float2 r) {
-                float result;
+            float GridTest(float2 t_uv) {
+                float result = 0.0;
 
                 for (float i = 0.0; i <= 1; i += _GridSize) {
                     for (int j = 0; j < 2; j++) {
-                        result += 1.0 - smoothstep(0.0, _GridLineThickness,abs(r[j] - i));
+                        result += 1.0 - smoothstep(0.0, _GridLineThickness, abs(t_uv[j] - i));
                     }
                 }
 
@@ -62,7 +64,10 @@ Shader "Unlit/Grid"
 
             float4 frag(v2f i) : SV_Target
             {
-                float4 gridColour = (_GridColour * GridTest(i.uv) * _Intensity) + tex2D(_MainTex, i.uv);
+                float3 dir = normalize(i.pos);
+                float2 sphereUV = float2(degrees(atan2(dir.z, dir.x)) / 360  + 0.5, degrees(asin(dir.y)) / 360 + 0.5);
+
+                float4 gridColour = (_GridColour * GridTest(sphereUV) * _Intensity) + tex2D(_MainTex, i.uv);
                 gridColour = float4(gridColour.r, gridColour.g, gridColour.b, 1);
                 return float4(gridColour);
             }
