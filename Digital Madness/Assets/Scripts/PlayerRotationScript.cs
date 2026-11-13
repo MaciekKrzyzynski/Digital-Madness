@@ -3,7 +3,8 @@ using UnityEngine;
 public class PlayerRotationScript : MonoBehaviour
 {
     private InputSystem_Actions controls;
-    private Camera camera; 
+    private Camera camera;
+    public GameObject projectilePrefab; 
 
     void Awake()
     {
@@ -22,7 +23,13 @@ public class PlayerRotationScript : MonoBehaviour
     {
        
     }
-
+    private void Update()
+    {
+        controls.Player.Attack.performed += ctx =>
+        {
+            FireProjectile();
+        };
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -32,5 +39,16 @@ public class PlayerRotationScript : MonoBehaviour
         float rotation = Mathf.Atan2(distance.y, distance.x);
         rotation = Mathf.Rad2Deg * rotation;
         transform.localRotation = Quaternion.Euler(0, -rotation, 0);
+    }
+
+    void FireProjectile()
+    {
+        Vector3 normal = transform.up;
+        Vector3 aim = Vector3.ProjectOnPlane(transform.forward, normal).normalized;
+
+        Quaternion spawnRotation = Quaternion.LookRotation(aim, normal);   // Z=aim, Y=normal (radial)
+        Vector3 spawnPosition = transform.position + aim * 2f;             // in FRONT, unambiguous
+
+        Instantiate(projectilePrefab, spawnPosition, spawnRotation);
     }
 }
