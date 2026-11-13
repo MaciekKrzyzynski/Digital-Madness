@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
@@ -13,8 +14,14 @@ public class ProjectileScript : MonoBehaviour
       
         rb = GetComponent<Rigidbody>();
         surface = GameObject.FindWithTag("PlayArea");
+        StartCoroutine(Expire()); 
+        
     }
-
+    IEnumerator Expire()
+    {
+        yield return new WaitForSeconds(3f);
+        Destroy(gameObject); 
+    }
 
     void FixedUpdate()
     {
@@ -23,12 +30,11 @@ public class ProjectileScript : MonoBehaviour
 
         float pitchAngle =  speed * Time.fixedDeltaTime;
 
-
-        Quaternion stepRotation = Quaternion.AngleAxis(pitchAngle, transform.forward);  // Z = tangent → correct spin axis
+        Quaternion stepRotation = Quaternion.AngleAxis(pitchAngle, transform.right);
         Quaternion targetRotation = stepRotation * rb.rotation;
         rb.MoveRotation(targetRotation);
 
-        Vector3 newUp = targetRotation * Vector3.right;                                // X = normal (radial) → keeps bullet on sphere
+        Vector3 newUp = targetRotation * Vector3.forward;
         Vector3 targetPosition = surface.transform.position + (newUp * distance.magnitude);
         rb.MovePosition(targetPosition);
 

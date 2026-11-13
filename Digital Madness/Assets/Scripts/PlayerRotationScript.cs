@@ -4,7 +4,7 @@ public class PlayerRotationScript : MonoBehaviour
 {
     private InputSystem_Actions controls;
     private Camera camera;
-    public GameObject projectilePrefab; 
+    public GameObject projectilePrefab;
 
     void Awake()
     {
@@ -43,12 +43,9 @@ public class PlayerRotationScript : MonoBehaviour
 
     void FireProjectile()
     {
-        Vector3 normal = transform.up;
-        Vector3 aim = Vector3.ProjectOnPlane(transform.forward, normal).normalized;
 
-        Quaternion spawnRotation = Quaternion.LookRotation(aim, normal);   // Z=aim, Y=normal (radial)
-        Vector3 spawnPosition = transform.position + aim * 2f;             // in FRONT, unambiguous
-
-        Instantiate(projectilePrefab, spawnPosition, spawnRotation);
+        Quaternion spawnRotation = Quaternion.Euler(-90f,0f,90f);  
+        Vector3 spawnPosition = transform.position + transform.right * 2f;         
+        Instantiate(projectilePrefab, spawnPosition, transform.rotation * spawnRotation);
     }
 }
