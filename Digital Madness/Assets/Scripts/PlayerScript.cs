@@ -5,6 +5,7 @@ public class PlayerScript : MonoBehaviour
     private InputSystem_Actions controls;
     private Camera camera;
     public GameObject projectilePrefab;
+    public bool powerUp; 
 
     void Awake()
     {
@@ -51,5 +52,12 @@ public class PlayerScript : MonoBehaviour
         Quaternion spawnRotation = Quaternion.Euler(-90f,0f,90f);  
         Vector3 spawnPosition = transform.position + transform.right * 2f;         
         Instantiate(projectilePrefab, spawnPosition, transform.rotation * spawnRotation);
+        if (powerUp)
+        {
+            spawnRotation = Quaternion.Euler(-90f, 0f, 60f);
+            Instantiate(projectilePrefab, spawnPosition, transform.rotation * spawnRotation);
+            spawnRotation = Quaternion.Euler(-90f, 0f, 120f);
+            Instantiate(projectilePrefab, spawnPosition, transform.rotation * spawnRotation);
+        }
     }
 }
