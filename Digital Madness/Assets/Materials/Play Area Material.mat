@@ -103,7 +103,7 @@ Material:
     - _GlossyReflections: 0
     - _GridLineThickness: 0.00075
     - _GridSize: 0.03846154
-    - _Intensity: 10
+    - _Intensity: 15
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005

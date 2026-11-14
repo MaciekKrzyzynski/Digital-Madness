@@ -25,7 +25,7 @@ public class ProjectileScript : MonoBehaviour
 
     void FixedUpdate()
     {
-      
+        
         Vector3 distance = surface.transform.position - rb.transform.position;
 
         float pitchAngle =  speed * Time.fixedDeltaTime;
@@ -33,7 +33,8 @@ public class ProjectileScript : MonoBehaviour
         Quaternion stepRotation = Quaternion.AngleAxis(pitchAngle, transform.right);
         Quaternion targetRotation = stepRotation * rb.rotation;
         rb.MoveRotation(targetRotation);
-
+       
+        //The projectile is laying down so the forward vector is used for facing away from sphere. 
         Vector3 newUp = targetRotation * Vector3.forward;
         Vector3 targetPosition = surface.transform.position + (newUp * distance.magnitude);
         rb.MovePosition(targetPosition);
