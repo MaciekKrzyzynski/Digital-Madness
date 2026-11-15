@@ -13,7 +13,7 @@ public class ProjectileScript : MonoBehaviour
     {
       
         rb = GetComponent<Rigidbody>();
-        surface = GameObject.FindWithTag("PlayArea");
+        surface = GameObject.FindWithTag("CylinderMap");
         StartCoroutine(Expire()); 
         
     }
