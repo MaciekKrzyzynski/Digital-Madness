@@ -50,12 +50,14 @@ public class PlayerScript : MonoBehaviour
     {
         //Create Projectile 
         Quaternion spawnRotation = Quaternion.Euler(-90f,0f,90f);  
-        Vector3 spawnPosition = transform.position + transform.right * 2f;         
+        Vector3 spawnPosition = transform.position + transform.right * 1f;         
         Instantiate(projectilePrefab, spawnPosition, transform.rotation * spawnRotation);
         if (powerUp)
         {
             spawnRotation = Quaternion.Euler(-90f, 0f, 60f);
+            spawnPosition = transform.position + transform.right * 1f + transform.forward * .2f;
             Instantiate(projectilePrefab, spawnPosition, transform.rotation * spawnRotation);
+            spawnPosition = transform.position + transform.right * 1f - transform.forward * .2f;
             spawnRotation = Quaternion.Euler(-90f, 0f, 120f);
             Instantiate(projectilePrefab, spawnPosition, transform.rotation * spawnRotation);
         }
