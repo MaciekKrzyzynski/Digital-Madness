@@ -9,8 +9,9 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
+
         // position = above + behind, in the player's local frame
-        Vector3 targetPos = player.position + player.up * height - player.forward * distance;
+        Vector3 targetPos = player.parent.position + player.up * height - player.parent.forward * distance;
 
         transform.position = targetPos;
         transform.LookAt(player.position, player.up);

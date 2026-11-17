@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4702637726822703633}
   - component: {fileID: 6350773127501875932}
   - component: {fileID: 2396818933982303884}
+  - component: {fileID: -6068489739001204587}
   m_Layer: 0
   m_Name: Projectile
   m_TagString: Untagged
@@ -150,9 +151,22 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7898811930527324598}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 372a7264bb3edd640956be253e3f8620, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileScript
-  speed: 30
+  speed: 10
+--- !u!114 &-6068489739001204587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7898811930527324598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66eb94b0c4d6280438e5e5152ee2b198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileSphereScript
+  speed: 10
