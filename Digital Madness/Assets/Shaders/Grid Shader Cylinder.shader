@@ -59,7 +59,7 @@ Shader "Unlit/Grid"
                 {
                     for (int j = 0; j < 2; j++) // Do for both Axis
                     {
-                        result += 1.0 - smoothstep(0.0, _GridLineThickness, abs(t_uv[j] - i));
+                        result += 1.0 - smoothstep(0.0, _GridLineThickness * (abs(sin(_Time.y / 5.0)) * 2.0 + 1.0), abs(t_uv[j] - i));
                     }
                 }
 

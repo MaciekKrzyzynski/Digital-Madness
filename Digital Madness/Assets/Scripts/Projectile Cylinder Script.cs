@@ -46,6 +46,11 @@ public class ProjectileCylinderScript : MonoBehaviour
 
         position.y = surface.transform.position.y + normal.y * radius;
         position.z = surface.transform.position.z + normal.z * radius;
+
+        if (position.x > 23.5f || position.x < -23.5f)
+        {
+            Destroy(gameObject); 
+        }
         rb.MovePosition(position);
 
         Quaternion rotation = Quaternion.FromToRotation(lastNormal, normal) * rb.rotation; 
