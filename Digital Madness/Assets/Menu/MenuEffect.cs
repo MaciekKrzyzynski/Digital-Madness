@@ -9,11 +9,20 @@ public class MenuTextEffect : MonoBehaviour,
     IPointerExitHandler,
     IPointerClickHandler
 {
+    public enum MenuAction
+    {
+        None,
+        StartGame,
+        Instructions,
+        StartScreen
+    }
+    public MenuAction menuAction;
     private Vector3 originalScale;
     private Coroutine animationCoroutine;
 
     private float hoverScale = 1.1f;
     private float animationSpeed = 0.15f;
+    public MenuManager menuManager;
 
     void Start()
     {
@@ -61,5 +70,19 @@ public class MenuTextEffect : MonoBehaviour,
 
         Vector3 target = originalScale * hoverScale;
         animationCoroutine = StartCoroutine(ScaleAnimation(target));
+        switch (menuAction)
+        {
+            case MenuAction.StartGame:
+                menuManager.game();
+                break;
+
+            case MenuAction.Instructions:
+                menuManager.ShowInstructions();
+                break;
+
+            case MenuAction.StartScreen:
+                menuManager.ShowMainMenu();
+                break;
+        }
     }
 }
