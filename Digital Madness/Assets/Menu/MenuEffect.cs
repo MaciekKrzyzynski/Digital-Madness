@@ -14,7 +14,8 @@ public class MenuTextEffect : MonoBehaviour,
         None,
         StartGame,
         Instructions,
-        StartScreen
+        StartScreen,
+        levels
     }
     public MenuAction menuAction;
     private Vector3 originalScale;
@@ -82,6 +83,10 @@ public class MenuTextEffect : MonoBehaviour,
 
             case MenuAction.StartScreen:
                 menuManager.ShowMainMenu();
+                break;
+
+            case MenuAction.levels:
+                menuManager.showLevels();
                 break;
         }
     }
