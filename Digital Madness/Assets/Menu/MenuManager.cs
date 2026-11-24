@@ -17,6 +17,7 @@ public class MenuManager : MonoBehaviour
         Player.SetActive(false);
         projectilePrefab.GetComponent<ProjectileCylinderScript>().enabled = false;
         projectilePrefab.GetComponent<ProjectileSphereScript>().enabled = false;
+        projectilePrefab.GetComponent<ProjectilePlaneScript>().enabled = false;
     }
     public void ShowInstructions()
     {
@@ -52,6 +53,7 @@ public class MenuManager : MonoBehaviour
     {
         Player.SetActive(true);
         Player.transform.SetParent(playerSphereAttach.transform, true);
+        Player.transform.position = new Vector3(0.0f, 18.0f, 0.0f);
         projectilePrefab.GetComponent<ProjectileCylinderScript>().enabled = false;
         projectilePrefab.GetComponent<ProjectileSphereScript>().enabled = true;
 
