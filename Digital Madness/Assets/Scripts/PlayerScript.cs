@@ -9,10 +9,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject projectilePrefab;
     public bool powerUp;
     private bool firing;
-    public GameObject sphereLevel;
-    public GameObject cylinderLevel;
-    public Transform sphereAttacher;
-    public Transform cylinderAttacher;
+
 
     void Awake()
     {
@@ -29,16 +26,7 @@ public class PlayerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if (sphereLevel.activeInHierarchy)
-        {
-            transform.SetParent(sphereAttacher, true);
-            //transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
-        }
-        else if (cylinderLevel.activeInHierarchy)
-        {
-            transform.SetParent(cylinderAttacher, true);
-            //transform.position = new Vector3(transform.position.x, 0.0000001f, transform.position.z);
-        }
+       
     }
     private void Update()
     {
