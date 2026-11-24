@@ -16,6 +16,11 @@ public class ProjectileCylinderScript : MonoBehaviour
       
         rb = GetComponent<Rigidbody>();
         surface = GameObject.FindWithTag("CylinderMap");
+        if (rb == null || surface == null)
+        {
+            enabled = false;
+            return;
+        }
         StartCoroutine(Expire()); 
         
     }

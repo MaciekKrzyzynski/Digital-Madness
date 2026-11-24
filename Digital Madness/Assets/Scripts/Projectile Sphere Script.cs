@@ -16,6 +16,11 @@ public class ProjectileSphereScript : MonoBehaviour
       
         rb = GetComponent<Rigidbody>();
         surface = GameObject.FindWithTag("SphereMap");
+        if (rb == null || surface == null)
+        {
+            enabled = false;
+            return;
+        }
         StartCoroutine(Expire()); 
         
     }

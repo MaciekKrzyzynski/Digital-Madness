@@ -15,7 +15,9 @@ public class MenuTextEffect : MonoBehaviour,
         StartGame,
         Instructions,
         StartScreen,
-        levels
+        levels,
+        Sphere,
+        Cylinder
     }
     public MenuAction menuAction;
     private Vector3 originalScale;
@@ -87,6 +89,14 @@ public class MenuTextEffect : MonoBehaviour,
 
             case MenuAction.levels:
                 menuManager.showLevels();
+                break;
+
+            case MenuAction.Sphere:
+                menuManager.sphereLevel();
+                break;
+
+            case MenuAction.Cylinder:
+                menuManager.cylinderLevel();
                 break;
         }
     }
