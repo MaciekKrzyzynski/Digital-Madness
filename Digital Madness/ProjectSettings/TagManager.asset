@@ -6,6 +6,8 @@ TagManager:
   tags:
   - CylinderMap
   - SphereMap
+  - PlaneMap
+  - Enemy
   layers:
   - Default
   - TransparentFX

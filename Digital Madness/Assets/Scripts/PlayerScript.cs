@@ -10,11 +10,16 @@ public class PlayerScript : MonoBehaviour
     public GameObject projectilePrefab;
     public bool powerUp;
     private bool firing;
+
     private int maxLives = 5;
     public GameText heartsUI;
     private int lives;
-    private float invincibleUntil;
-    public float invincibleTime = 1f;
+
+    private bool invincible = false;
+    private bool flickerTransparant = false;
+    private float invincibleTime = 2.0f;
+    private float flickerTime = 0.2f;
+
 
     void Awake()
     {
@@ -34,7 +39,6 @@ public class PlayerScript : MonoBehaviour
     {
         lives = maxLives;
         heartsUI.SetLives(lives);
-        invincibleUntil = Time.time + 2f;
     }
     private void Update()
     {
@@ -45,7 +49,7 @@ public class PlayerScript : MonoBehaviour
                 StartCoroutine(ProjectileInterval());
             }
         };
-       
+
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -65,8 +69,8 @@ public class PlayerScript : MonoBehaviour
     void FireProjectile()
     {
         //Create Projectile 
-        Quaternion spawnRotation = Quaternion.Euler(-90f,0f,90f);  
-        Vector3 spawnPosition = transform.position + transform.right * 1f;         
+        Quaternion spawnRotation = Quaternion.Euler(-90f, 0f, 90f);
+        Vector3 spawnPosition = transform.position + transform.right * 1f;
         Instantiate(projectilePrefab, spawnPosition, transform.rotation * spawnRotation);
         if (powerUp)
         {
@@ -82,14 +86,15 @@ public class PlayerScript : MonoBehaviour
     private IEnumerator ProjectileInterval()
     {
 
-        firing = true; 
+        firing = true;
         while (controls.Player.Attack.IsPressed())
         {
-            FireProjectile(); 
+            FireProjectile();
             yield return new WaitForSeconds(0.5f);
         }
         firing = false;
     }
+
 
     public void TakeDamage()
     {
@@ -105,16 +110,58 @@ public class PlayerScript : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         Debug.Log("Player trigger with " + other.name);
-        if (other.GetComponentInParent<Enemy1Script>() != null &&
-            other.GetComponentInParent<Enemy2Script>() != null) return;
-        if (Time.time < invincibleUntil) return;
-        invincibleUntil = Time.time + invincibleTime;
-        
-        TakeDamage();
-        
+
+        if (other.CompareTag("Enemy") && !invincible)
+        {
+            StartCoroutine(playerInvincibility());
+            TakeDamage();
+        }
     }
 
-    
 
+
+
+
+    IEnumerator playerInvincibility()
+    {
+        float timePassed = 0f;
+        invincible = true;
+        Renderer renderer = GetComponent<Renderer>();
+        Material material = renderer.material;
+
+        // Cache original values
+        Color color = material.color;
+        float originalMetallic = material.GetFloat("_Metallic");
+        float originalSmoothness = material.GetFloat("_Smoothness");
+
+
+        while (timePassed <= invincibleTime)
+        {
+            if (!flickerTransparant)
+            {
+                color.a = 0.2f;
+                material.SetFloat("_Metallic", 0f);
+                material.SetFloat("_Smoothness", 0f);
+                flickerTransparant = true;
+            }
+            else
+            {
+                color.a = 1.0f;
+                material.SetFloat("_Metallic", originalMetallic);
+                material.SetFloat("_Smoothness", originalSmoothness);
+                flickerTransparant = false;
+            }
+            GetComponent<Renderer>().material.color = color;
+            timePassed += flickerTime;
+            yield return new WaitForSeconds(flickerTime);
+
+        }
+        color.a = 1.0f;
+        material.color = color;
+        material.SetFloat("_Metallic", originalMetallic);
+        material.SetFloat("_Smoothness", originalSmoothness);
+        invincible = false;
+
+    }
 
 }

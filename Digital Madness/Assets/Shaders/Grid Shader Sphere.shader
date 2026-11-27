@@ -71,7 +71,7 @@ Shader "Unlit/Grid"
                 // convert the otherwise flat surface uv coordinates into longitude and latitude coordinates to prevent odd cliping on the sphere.
                 float2 sphereUV = float2(degrees(atan2(dir.z, dir.x)) / 360  + 0.5, degrees(asin(dir.y)) / 360 + 0.5); 
 
-                float4 gradientColor = lerp(_GridColour, _GridColour_2, smoothstep(-1, 1, dir.y)); // Make a vertical gradient
+                float4 gradientColor = lerp(_GridColour, _GridColour_2, smoothstep(-1, 1, sin(_Time.y / 5.0f) * dir.y)); // Make a vertical gradient
 
                 float4 gridColour = (gradientColor * CreateGrid(sphereUV) * _Intensity); // Calculate Color 
                 return float4(gridColour);
