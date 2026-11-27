@@ -4,7 +4,7 @@ using UnityEngine.InputSystem.Controls;
 
 public class Enemy1Script : MonoBehaviour
 {
-    
+
     private Rigidbody rb;
     public Transform player;
     public Transform center;
@@ -13,6 +13,8 @@ public class Enemy1Script : MonoBehaviour
     public float turnRate = 90f;
     public float radiusOffset = 0f;
     private Vector3 dir;
+    public float spriteAngleOffset = 0f;
+    private int lives = 2;
 
     private Vector3 heading;
     Vector3 Center => center != null ? center.position : Vector3.zero;
@@ -22,7 +24,7 @@ public class Enemy1Script : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-        rb.isKinematic = false;
+        rb.isKinematic = true;
 
         if (player == null)
         {
@@ -40,9 +42,9 @@ public class Enemy1Script : MonoBehaviour
 
         heading = Vector3.ProjectOnPlane(Vector3.forward, dir);
         if (heading.sqrMagnitude < 0.001f) heading = Vector3.ProjectOnPlane(Vector3.right, dir);
-           heading.Normalize();
+        heading.Normalize();
     }
-   
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -53,7 +55,7 @@ public class Enemy1Script : MonoBehaviour
         Vector3 playerDir = toPlayer.normalized;
 
         Vector3 desired = Vector3.ProjectOnPlane(playerDir, dir);
-        if(desired.sqrMagnitude > 0.0001f)
+        if (desired.sqrMagnitude > 0.0001f)
         {
             heading = Vector3.RotateTowards(heading, desired.normalized,
                 turnRate * Mathf.Deg2Rad * Time.fixedDeltaTime, 0f);
@@ -66,6 +68,16 @@ public class Enemy1Script : MonoBehaviour
         rb.MovePosition(Center + dir * radius);
 
         heading = Vector3.ProjectOnPlane(heading, dir).normalized;
-        rb.MoveRotation(Quaternion.LookRotation(heading, dir));
+        Quaternion rot = Quaternion.LookRotation(-dir, heading) * Quaternion.Euler(0f, 0f, spriteAngleOffset);
+        rb.MoveRotation(rot);
     }
+
+
+   public void TakeHit()
+    {
+        lives--;
+        Debug.Log("Enemy1 hit by" + lives);
+        if (lives == 0) Destroy(gameObject);
+    }          
+
 }

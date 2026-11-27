@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
+using System.Security.Cryptography;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -9,12 +10,18 @@ public class PlayerScript : MonoBehaviour
     public GameObject projectilePrefab;
     public bool powerUp;
     private bool firing;
+    private int maxLives = 5;
+    public GameText heartsUI;
+    private int lives;
+    private float invincibleUntil;
+    public float invincibleTime = 1f;
 
     void Awake()
     {
         controls = new InputSystem_Actions();
         GameObject cameraObject = GameObject.FindWithTag("MainCamera");
         camera = cameraObject.GetComponent<Camera>();
+        if (heartsUI == null) heartsUI = FindFirstObjectByType<GameText>();
     }
 
     private void OnEnable()
@@ -25,7 +32,9 @@ public class PlayerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       
+        lives = maxLives;
+        heartsUI.SetLives(lives);
+        invincibleUntil = Time.time + 2f;
     }
     private void Update()
     {
@@ -36,6 +45,7 @@ public class PlayerScript : MonoBehaviour
                 StartCoroutine(ProjectileInterval());
             }
         };
+       
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -80,4 +90,31 @@ public class PlayerScript : MonoBehaviour
         }
         firing = false;
     }
+
+    public void TakeDamage()
+    {
+        lives--;
+        heartsUI.SetLives(lives);
+        if (lives <= 0)
+        {
+            Debug.Log("Player hit" + lives);
+            Destroy(gameObject);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Player trigger with " + other.name);
+        if (other.GetComponentInParent<Enemy1Script>() != null &&
+            other.GetComponentInParent<Enemy2Script>() != null) return;
+        if (Time.time < invincibleUntil) return;
+        invincibleUntil = Time.time + invincibleTime;
+        
+        TakeDamage();
+        
+    }
+
+    
+
+
 }

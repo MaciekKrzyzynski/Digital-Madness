@@ -52,4 +52,23 @@ public class ProjectileSphereScript : MonoBehaviour
 
        
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        Enemy1Script e1 = other.GetComponentInParent<Enemy1Script>();
+        if(e1 != null)
+        {
+            e1.TakeHit();
+            Destroy(gameObject);
+            return;
+        }
+    
+        Enemy2Script e2 = other.GetComponentInParent<Enemy2Script>();
+        if(e2 != null)
+        {
+            e2.TakeHit();
+            Destroy(gameObject);
+        }
+    }
+
 }
