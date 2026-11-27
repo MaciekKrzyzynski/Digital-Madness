@@ -17,7 +17,8 @@ public class MenuTextEffect : MonoBehaviour,
         StartScreen,
         levels,
         Sphere,
-        Cylinder
+        Cylinder, 
+        Plane
     }
     public MenuAction menuAction;
     private Vector3 originalScale;
@@ -68,7 +69,7 @@ public class MenuTextEffect : MonoBehaviour,
 
     IEnumerator ClickBounce()
     {
-        //Srink
+        //Shrink
         yield return new WaitForSecondsRealtime(0.1f);
 
         Vector3 target = originalScale * hoverScale;
@@ -97,6 +98,10 @@ public class MenuTextEffect : MonoBehaviour,
 
             case MenuAction.Cylinder:
                 menuManager.cylinderLevel();
+                break;
+
+            case MenuAction.Plane:
+                menuManager.planeLevel();
                 break;
         }
     }
