@@ -13,101 +13,87 @@ public class MenuManager : MonoBehaviour
     public GameObject playerSphereAttach;
     public GameObject playerPlaneAttach;
     public GameObject projectilePrefab;
+    public Level level; 
 
     private void Awake()
     {
-       
+        level.currentLevel = 0;
         Cylinder.SetActive(false);
         Sphere.SetActive(false);
-        Player.transform.parent.gameObject.SetActive(false); 
-        projectilePrefab.GetComponent<ProjectileCylinderScript>().enabled = false;
-        projectilePrefab.GetComponent<ProjectileSphereScript>().enabled = false;
-        projectilePrefab.GetComponent<ProjectilePlaneScript>().enabled = false;
+        playerCylinderAttach.SetActive(false);
+        playerSphereAttach.SetActive(false);
+        playerPlaneAttach.SetActive(false);
+        projectilePrefab.GetComponent<ProjectileScript>().enabled = false;
+
     }
     public void ShowInstructions()
     {
-        Cylinder.SetActive(false);
-        Sphere.SetActive(false);
-        mainMenu.SetActive(false);
-        levels.SetActive(false);
+        turnEverythingOff(); 
         instructions.SetActive(true);
-        Player.SetActive(false);
+        
     }
 
     public void ShowMainMenu()
     {
-        Cylinder.SetActive(false);
-        Sphere.SetActive(false);
-        instructions.SetActive(false);
-        levels.SetActive(false);
+        turnEverythingOff(); 
         mainMenu.SetActive(true);
-        Player.SetActive(false); 
+         
     }
 
     public void showLevels()
     {
-        Cylinder.SetActive(false);
-        Sphere.SetActive(false);
-        instructions.SetActive(false);
+        turnEverythingOff(); 
         levels.SetActive(true);
-        mainMenu.SetActive(false);
-        Player.SetActive(false);
+       
     }
 
     public void sphereLevel()
     {
+        level.currentLevel = 3;
         Player.SetActive(true);
         Player.transform.SetParent(playerSphereAttach.transform, true);
         Player.transform.parent.gameObject.SetActive(true);
         Player.transform.position = new Vector3(0.0f, 18.0f, 0.0f);
-        projectilePrefab.GetComponent<ProjectileCylinderScript>().enabled = false;
-        projectilePrefab.GetComponent<ProjectileSphereScript>().enabled = true;
-        projectilePrefab.GetComponent<ProjectilePlaneScript>().enabled = false;
-        Cylinder.SetActive(false);
+        projectilePrefab.GetComponent<ProjectileScript>().enabled = true;
+
+        turnEverythingOff(); 
         Sphere.SetActive(true);
-        Plane.SetActive(false);
-        instructions.SetActive(false);
-        levels.SetActive(false);
-        mainMenu.SetActive(false);
     }
 
     public void cylinderLevel()
     {
+        level.currentLevel = 2;
         Player.SetActive(true);
         Player.transform.SetParent(playerCylinderAttach.transform, true);
         Player.transform.parent.gameObject.SetActive(true);
         Player.transform.position = new Vector3(0.0f, 13.0f, 0.0f);
-        projectilePrefab.GetComponent<ProjectileCylinderScript>().enabled = true;
-        projectilePrefab.GetComponent<ProjectileSphereScript>().enabled = false;
-        projectilePrefab.GetComponent<ProjectilePlaneScript>().enabled = false;
+        projectilePrefab.GetComponent<ProjectileScript>().enabled = true;
+
+        turnEverythingOff();
         Cylinder.SetActive(true);
-        Sphere.SetActive(false);
-        Plane.SetActive(false);
-        instructions.SetActive(false);
-        levels.SetActive(false);
-        mainMenu.SetActive(false);
     }
 
     public void planeLevel()
     {
+        level.currentLevel = 1;
         Player.SetActive(true);
         Player.transform.SetParent(playerPlaneAttach.transform, true);
         Player.transform.parent.gameObject.SetActive(true);
         Player.transform.position = new Vector3(0.0f, 1.0f, 0.0f);
-        projectilePrefab.GetComponent<ProjectileCylinderScript>().enabled = false;
-        projectilePrefab.GetComponent<ProjectileSphereScript>().enabled = false;
-        projectilePrefab.GetComponent<ProjectilePlaneScript>().enabled = true;
+        projectilePrefab.GetComponent<ProjectileScript>().enabled = true;
+        turnEverythingOff();
         Plane.SetActive(true);
-        Sphere.SetActive(false);
-        Cylinder.SetActive(false);
-        instructions.SetActive(false);
-        levels.SetActive(false);
-        mainMenu.SetActive(false);
     }
     public void game()
     {
-        Cylinder.SetActive(false);
+        turnEverythingOff(); 
+    }
+
+    void turnEverythingOff()
+    {
+        Plane.SetActive(false);
         Sphere.SetActive(false);
+        Cylinder.SetActive(false);
         instructions.SetActive(false);
         levels.SetActive(false);
         mainMenu.SetActive(false);

@@ -1239,6 +1239,7 @@ MonoBehaviour:
   playerSphereAttach: {fileID: 578261677}
   playerPlaneAttach: {fileID: 1632902699}
   projectilePrefab: {fileID: 7898811930527324598, guid: f03de8742c2e25f4199154af1f8ba9e3, type: 3}
+  level: {fileID: 11400000, guid: 835218dd07fef364d92f03148fb2fe9b, type: 2}
 --- !u!224 &739302845
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7794,7 +7795,7 @@ TrailRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_Time: 0.5
   m_PreviewTimeScale: 1
